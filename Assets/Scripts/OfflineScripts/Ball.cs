@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
@@ -13,22 +14,28 @@ public class Ball : MonoBehaviour
     [SerializeField] private float _speedIncreaseFactor;
 
     private bool _overridePosition;
-    private int direction = 1;
+    //private int direction = 1;
     private float _initialSpped;
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            _speedIncreaseFactor = PlayerPrefs.GetFloat("difficulty") == 5 ? 1 : _speedIncreaseFactor;
+            _moveSpeed = PlayerPrefs.GetFloat("difficulty") == 5 ? 15 : _moveSpeed;
+        }
+
+        _initialSpped = _moveSpeed;
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(ServeBall());
-        _initialSpped = _moveSpeed;
-        _speedIncreaseFactor = PlayerPrefs.GetFloat("difficulty") == 5 ? 1 : _speedIncreaseFactor;
     }
 
     private void FixedUpdate()
     {
         if (!_overridePosition)
         {
-            rb.velocity = new Vector2(_velocity.x, direction * _velocity.y);
+            rb.velocity = new Vector2(_velocity.x, _velocity.y);
+            _moveSpeed = _moveSpeed > 16.5f ? 17.0f : _moveSpeed;
         }
     }
 
@@ -46,7 +53,7 @@ public class Ball : MonoBehaviour
         if (collision.collider.tag == "Walls")
             _velocity = new Vector2(-_velocity.x, _velocity.y);
         else
-            _velocity = -_velocity;
+            BounceFromPaddle(collision.collider);
     }
 
     private void BounceFromPaddle(Collider2D collider)
@@ -67,7 +74,6 @@ public class Ball : MonoBehaviour
     private IEnumerator ServeBall()
     {
         yield return new WaitForSeconds(2);
-        //_velocity = Vector2.up * _moveSpeed;
         _velocity = new Vector2(Random.Range(0, 2) == 0 ? -1 : 1, Random.Range(0, 2) == 0 ? -1 : 1) * _moveSpeed;
     }
 
@@ -78,11 +84,11 @@ public class Ball : MonoBehaviour
 
     private IEnumerator ResetRoutine()
     {
+        _overridePosition = true;
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
         _moveSpeed = _initialSpped;
-        direction = -direction;
-        _overridePosition = true;
+        //direction = -direction;
         yield return new WaitForSeconds(_resetTime);
         _overridePosition = false;
     }

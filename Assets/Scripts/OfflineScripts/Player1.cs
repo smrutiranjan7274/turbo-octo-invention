@@ -3,7 +3,8 @@ using UnityEngine;
 public class Player1 : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _position;
+    [SerializeField] private float _clampPosition;
+    [SerializeField] private float _maxControlLimit;
 
     private void FixedUpdate()
     {
@@ -18,7 +19,7 @@ public class Player1 : MonoBehaviour
             Touch touch = Input.GetTouch(i);
             Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-            if (touchPosition.y < 0f)
+            if (touchPosition.y < 0f && touchPosition.y > -_maxControlLimit)
             {
                 float movement = touchPosition.x * _speed;
                 float targetXPosition = movement;
@@ -33,6 +34,6 @@ public class Player1 : MonoBehaviour
 
     private void ClampPostition(ref float xPosition)
     {
-        xPosition = Mathf.Clamp(xPosition, -_position, _position);
+        xPosition = Mathf.Clamp(xPosition, -_clampPosition, _clampPosition);
     }
 }

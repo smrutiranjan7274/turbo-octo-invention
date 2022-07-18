@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Project Settings
+  m_Title: Hierarchy
   m_RootView: {fileID: 10}
   m_MinSize: {x: 875, y: 421}
   m_MaxSize: {x: 10000, y: 10000}
@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 443
     height: 939
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 80
+  controlID: 73
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 52
+  controlID: 79
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 51372
+  controlID: 17
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectSettingsWindow
+  m_Name: InspectorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -224,15 +224,15 @@ MonoBehaviour:
     y: 0
     width: 684
     height: 651
-  m_MinSize: {x: 311, y: 221}
+  m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
   - {fileID: 15}
   - {fileID: 14}
-  m_Selected: 2
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 2
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -323,8 +323,8 @@ MonoBehaviour:
     y: 0
     width: 498
     height: 939
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -359,7 +359,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_PosLeft: {x: 0, y: 0}
-  m_PosRight: {x: 0, y: 0}
+  m_PosRight: {x: 0, y: 1020}
   m_Scope: 1
   m_SplitterFlex: 0.2
   m_SearchText: 
@@ -454,7 +454,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Sprites/Logos
+    - Assets/Plugins/Android
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: e84b0000
     m_LastClickedID: 19432
-    m_ExpandedIDs: 00000000ec530000ee530000
+    m_ExpandedIDs: 0000000026550000285500002a550000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -496,7 +496,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 5669ffffffffffff00000000ee5300003254000028890000
+    m_ExpandedIDs: ffffffff0000000026550000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -624,9 +624,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 54b0fdffb0b0fdfffab0fdff28b1fdff56b1fdff88b1fdff82bcfdffe4bcfdff3cbefdff4abefdff58befdff68befdff56c1fdff46c5fdff70c9fdffc2cffdff2ad0fdff9ad0fdff4ad4fdffccddfdff983cfeff3c3dfeff9031ffff0a36ffffb63bffffc63bfffff890ffff7c94ffff1a95ffffe695ffff7096ffff4c97ffff9ea2ffff4ea3ffff92e4ffff04faffff10fbffffb0850000d48500006a8b0000708b0000428c0000a08c0000e08c0000e68c0000b88d0000168e0000568e00005c8e0000b090000058c60000bec6000070c8000076c80000ceda000034db000058e30000fc1b0100e0290100462a0100ca610100286201005c620100906201009e620100a4620100b86201003664010062640100c8640100246801006c68010082680100
+      m_SelectedIDs: 0efbffff
+      m_LastClickedID: -1266
+      m_ExpandedIDs: 2e66ffff9066ffffee67fffffc67ffff0868ffff1c68ffff4c78ffffae78ffff067affff147affff247affff387affffd881ffff3e82ffff9683ffffa483ffffb483ffffc883ffff6288ffffc888ffff208affff2e8affff3e8affff528affff6ea5ffffd0a5ffff28a7ffff36a7ffff44a7ffff54a7ffffc8a9ffff10fbffff665b0000ca5b00004c6b00006a6b00005e6d0000c26d0000bc71000032720000be72000022730000607c0000927d0000067e00007e980000ce980000f2980000c0a8000010a9000034a9000028bb0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -897,9 +897,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.25097814, y: -0.82618403, z: -9.031962}
+    m_Target: {x: 550.99225, y: 1092.6403, z: 0.5409088}
     speed: 2
-    m_Value: {x: -0.24520451, y: -0.88663733, z: -9.03365}
+    m_Value: {x: 550.99225, y: 1092.6403, z: 0.5409088}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -950,9 +950,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.5821755
+    m_Target: 365.1643
     speed: 2
-    m_Value: 3.7509692
+    m_Value: 365.1643
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -970,7 +970,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.1850468, y: 0.7804662, z: -0.27153015, w: -0.53188473}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -1036,7 +1036,7 @@ MonoBehaviour:
   m_SerializedViewNames:
   - UnityEditor.GameView
   m_SerializedViewValues:
-  - C:\Users\smrut\Documents\GitHub\turbo-octo-invention\Library\PlayModeViewStates\b40e111bc6e4f584785ec949f2d22354
+  - C:\Users\smrut\Documents\GitHub\turbo-octo-invention\Library\PlayModeViewStates\ea71beed98ddf574d8e43adaac27fc76
   m_PlayModeViewName: Device Simulator
   m_ShowGizmos: 0
   m_TargetDisplay: 0

@@ -13,6 +13,7 @@ public class Computer1 : MonoBehaviour
     {
         _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
         _speed = PlayerPrefs.GetFloat("difficulty") == 0 ? 1.5f : PlayerPrefs.GetFloat("difficulty");
+        _position = PlayerPrefs.GetFloat("difficulty") == 5 ? 1.5f : _position;
     }
 
     private void FixedUpdate()

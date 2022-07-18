@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: f388c52ba4ce56a45a4affbe481b50da
   - enabled: 1
-    path: Assets/Scenes/OfflineSinglePlayer.unity
+    path: Assets/Scenes/P vs AI (Offline).unity
     guid: 9016410a698048c45832ad6d6440fcfa
   - enabled: 1
-    path: Assets/Scenes/OfflineMultiPlayer.unity
+    path: Assets/Scenes/P1 v P2 (Offline).unity
     guid: 35523a24d1392e344ba2503df817d60e
   - enabled: 1
     path: Assets/Scenes/OnlineMultiPlayer.unity

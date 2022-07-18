@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ComputerPaddle : MonoBehaviour
+public class Computer2 : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _position;
+
 
     private Ball _ball;
 
@@ -20,9 +21,9 @@ public class ComputerPaddle : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (_ball.transform.position.y > 0f)
+        if (_ball.transform.position.y < 0f)
         {
-            float targetXPosition = Mathf.MoveTowards(transform.position.x, _ball.transform.position.x, _speed * Time.deltaTime);
+            float targetXPosition = Mathf.MoveTowards(transform.position.x, _ball.transform.position.x + Random.Range(-0.5f,0.5f), _speed * Time.deltaTime);
 
             ClampPostition(ref targetXPosition);
 
@@ -35,6 +36,6 @@ public class ComputerPaddle : MonoBehaviour
 
     private void ClampPostition(ref float xPosition)
     {
-        xPosition = Mathf.Clamp(xPosition, -1.5f, 1.5f);
+        xPosition = Mathf.Clamp(xPosition, -_position, _position);
     }
 }

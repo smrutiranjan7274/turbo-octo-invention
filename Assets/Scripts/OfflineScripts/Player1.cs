@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerPaddle : MonoBehaviour
+public class Player1 : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _position;
 
     private void FixedUpdate()
     {
@@ -15,12 +15,12 @@ public class PlayerPaddle : MonoBehaviour
         int i = 0;
         while (i < Input.touchCount)
         {
-            Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(i);
             Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
             if (touchPosition.y < 0f)
             {
-                float movement = touchPosition.x * speed;
+                float movement = touchPosition.x * _speed;
                 float targetXPosition = movement;
 
                 ClampPostition(ref targetXPosition);
@@ -29,12 +29,10 @@ public class PlayerPaddle : MonoBehaviour
             }
             ++i;
         }
-
     }
 
     private void ClampPostition(ref float xPosition)
     {
-        xPosition = Mathf.Clamp(xPosition, -1.5f, 1.5f);
+        xPosition = Mathf.Clamp(xPosition, -_position, _position);
     }
-
 }

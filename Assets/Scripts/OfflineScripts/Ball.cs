@@ -10,25 +10,31 @@ public class Ball : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _resetTime;
     [SerializeField] private float _maxBounceAngle;
-    [SerializeField] private float _serveAngle;
+    [SerializeField] private float _speedIncreaseFactor;
 
     private bool _overridePosition;
     private int direction = 1;
+    private float _initialSpped;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(ServeBall());
+        _initialSpped = _moveSpeed;
+        _speedIncreaseFactor = PlayerPrefs.GetFloat("difficulty") == 5 ? 1 : _speedIncreaseFactor;
     }
 
     private void FixedUpdate()
     {
-        if(!_overridePosition)
-            rb.velocity = direction * _velocity;
+        if (!_overridePosition)
+        {
+            rb.velocity = new Vector2(_velocity.x, direction * _velocity.y);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        _moveSpeed += _speedIncreaseFactor * Time.fixedDeltaTime;
         if (collision.collider.tag == "Player")
             BounceFromPaddle(collision.collider);
         else
@@ -40,7 +46,7 @@ public class Ball : MonoBehaviour
         if (collision.collider.tag == "Walls")
             _velocity = new Vector2(-_velocity.x, _velocity.y);
         else
-            _velocity = new Vector2(-_velocity.x,-_velocity.y);
+            _velocity = -_velocity;
     }
 
     private void BounceFromPaddle(Collider2D collider)
@@ -60,8 +66,9 @@ public class Ball : MonoBehaviour
 
     private IEnumerator ServeBall()
     {
-        yield return new WaitForSeconds(3);
-        _velocity =  new Vector2(Random.Range(-1.0f, 1.0f) == 0 ? -0.5f : +0.5f, Random.Range(-1, 1) == 0 ? 1:1) * _moveSpeed;
+        yield return new WaitForSeconds(2);
+        //_velocity = Vector2.up * _moveSpeed;
+        _velocity = new Vector2(Random.Range(0, 2) == 0 ? -1 : 1, Random.Range(0, 2) == 0 ? -1 : 1) * _moveSpeed;
     }
 
     public void Reset()
@@ -73,6 +80,7 @@ public class Ball : MonoBehaviour
     {
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
+        _moveSpeed = _initialSpped;
         direction = -direction;
         _overridePosition = true;
         yield return new WaitForSeconds(_resetTime);

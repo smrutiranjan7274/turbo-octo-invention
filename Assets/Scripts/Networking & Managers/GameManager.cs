@@ -10,51 +10,73 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameInfoText;
     [SerializeField] private TextMeshProUGUI playerScoreText;
     [SerializeField] private TextMeshProUGUI computerScoreText;
+    [SerializeField] private TextMeshProUGUI fpsText;
 
     [SerializeField] private int scoreToWin;
 
+    [SerializeField] private float _playerPost;
+    [SerializeField] private float _computerPost;
+
     private Ball _ball;
 
+    private FPSCounter _fpsCounter;
+
     private int playerScore, computerScore;
+
+    private string refreshRate;
 
     private void Awake()
     {
         // Set instance
         instance = this;
 
+        _fpsCounter = GetComponent<FPSCounter>();
+
         // Set Info texts.
         gameInfoText.text = Application.productName + " | " + SceneManager.GetActiveScene().name + " | v" + Application.version;
         var currResolution = Screen.currentResolution.ToString();
-        var refreshRate = (currResolution.Substring(currResolution.Length - 4)).Substring(0, 2);
-        Application.targetFrameRate = int.Parse(refreshRate);
+        refreshRate = (currResolution.Substring(currResolution.Length - 4)).Substring(0, 2);
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-            _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+        _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            playerScore = 0;
-            computerScore = 0;
-        }
-
+        playerScore = 0;
+        computerScore = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+
+        if ( SceneManager.GetActiveScene().buildIndex == 0)
         {
-            if (_ball.transform.position.y >= 4.42f)
+            if (_ball.transform.position.y >= _computerPost)
             {
                 playerScore++;
                 _ball.Reset();
             }
-            else if (_ball.transform.position.y <= -4.42f)
+            else if (_ball.transform.position.y <= _playerPost)
+            {
+                computerScore++;
+                _ball.Reset();
+            }                
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            Application.targetFrameRate = int.Parse(refreshRate);
+            fpsText.text = "FPS: " + _fpsCounter.FramesPerSec.ToString();
+
+            if (_ball.transform.position.y >= _computerPost)
+            {
+                playerScore++;
+                _ball.Reset();
+            }
+            else if (_ball.transform.position.y <= _playerPost)
             {
                 computerScore++;
                 _ball.Reset();
@@ -66,7 +88,12 @@ public class GameManager : MonoBehaviour
             if (playerScore == scoreToWin || computerScore == scoreToWin)
                 _ball.gameObject.SetActive(false);
         }
+    }
 
+    public void LoadLevelWithDifficulty(float _difficulty)
+    {
+        PlayerPrefs.SetFloat("difficulty",_difficulty); 
+        SceneManager.LoadScene(1);
     }
 
     public void LoadLevel(int level)

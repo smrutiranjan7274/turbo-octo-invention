@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class Ball : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -12,10 +12,21 @@ public class Ball : MonoBehaviour
     [SerializeField] private float _resetTime;
     [SerializeField] private float _maxBounceAngle;
     [SerializeField] private float _speedIncreaseFactor;
+    [SerializeField] private Color[] colors;
 
     private bool _overridePosition;
     //private int direction = 1;
     private float _initialSpped;
+    private float _time = 0;
+    private float _lerpTime;
+    private int _colorIndex = 0;
+    private int _length = 0;
+    private SpriteRenderer _spriteRenderer;
+
+    private void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Start()
     {
@@ -27,7 +38,24 @@ public class Ball : MonoBehaviour
 
         _initialSpped = _moveSpeed;
         rb = GetComponent<Rigidbody2D>();
+        _length = colors.Length;
         StartCoroutine(ServeBall());
+    }
+
+    private void Update()
+    {
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, colors[_colorIndex], _lerpTime * Time.deltaTime);
+            
+            _time = Mathf.Lerp(_time, 1f, _lerpTime * Time.deltaTime);
+            if(_time > .9f)
+            {
+                _time = 0;
+                _colorIndex++;
+                _colorIndex = (_colorIndex >= _length) ? 0 : _colorIndex;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -36,12 +64,14 @@ public class Ball : MonoBehaviour
         {
             rb.velocity = new Vector2(_velocity.x, _velocity.y);
             _moveSpeed = _moveSpeed > 16.5f ? 17.0f : _moveSpeed;
+            _lerpTime = (_lerpTime > 15f) ? 15.0f : _lerpTime;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _moveSpeed += _speedIncreaseFactor * Time.fixedDeltaTime;
+        _lerpTime += _speedIncreaseFactor;
         if (collision.collider.tag == "Player")
             BounceFromPaddle(collision.collider);
         else
@@ -88,6 +118,7 @@ public class Ball : MonoBehaviour
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
         _moveSpeed = _initialSpped;
+        _lerpTime = 0;
         //direction = -direction;
         yield return new WaitForSeconds(_resetTime);
         _overridePosition = false;

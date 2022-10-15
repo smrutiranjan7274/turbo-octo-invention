@@ -17,5 +17,6 @@ public class LeaveRoomMenu : MonoBehaviour
     {
         PhotonNetwork.LeaveRoom(true);
         _roomCanvases.CurrentRoomCanvas.Hide();
+        _roomCanvases.CreateOrJoinRoomCanvas.Show();
     }
 }

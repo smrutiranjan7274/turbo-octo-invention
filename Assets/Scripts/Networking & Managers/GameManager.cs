@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI gameInfoText;
     [SerializeField] private TextMeshProUGUI playerScoreText;
-    [SerializeField] private TextMeshProUGUI computerScoreText;
+    [SerializeField] private TextMeshProUGUI player2ScoreText;
     [SerializeField] private TextMeshProUGUI fpsText;
 
     [SerializeField] private TextMeshProUGUI _scoreResultText;
@@ -17,38 +19,56 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int scoreToWin;
 
     [SerializeField] private float _playerPost;
-    [SerializeField] private float _computerPost;
+    [SerializeField] private float _player2Post;
 
     [SerializeField] private GameObject _resultPanel;
+
+    //public Text rr;
 
     private Ball _ball;
 
     private FPSCounter _fpsCounter;
 
-    private int playerScore, computerScore;
-
-    private string refreshRate;
+    private int player1Score, player2Score;
 
     private void Awake()
     {
         // Set instance
         instance = this;
 
-        // Set target framerates to screen's max refresh rate
-        var currResolution = Screen.currentResolution.ToString();
-        refreshRate = (currResolution.Substring(currResolution.Length - 4)).Substring(0, 2);
-        Application.targetFrameRate = int.Parse(refreshRate);
+        if (SceneManager.GetActiveScene().buildIndex is 1 or 2)
+        {
+            // Assign objects
+            _fpsCounter = GetComponent<FPSCounter>();
+            _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+        }
 
-        // Assign objects
-        _fpsCounter = GetComponent<FPSCounter>();
-        _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+        // Set application target frame rate.
+        Application.targetFrameRate = 90;
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        playerScore = 0;
-        computerScore = 0;
+        // Some stuff with screen refresh rates
+        //Resolution[] resolutions = Screen.resolutions;
+
+        //if (SceneManager.GetActiveScene().buildIndex == 0)
+        //{
+        //    Debug.Log(Screen.currentResolution.refreshRate);
+        //    rr.text = Screen.currentResolution.refreshRate.ToString();
+        //}
+            
+        
+        // Print the resolutions
+        //foreach (var res in resolutions)
+        //{
+        //    Debug.Log(res.width + "x" + res.height + " : " + res.refreshRate);
+        //}
+
+        player1Score = 0;
+        player2Score = 0;
 
         //Disable screen dimming
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -77,20 +97,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // For MainMenu - AutoPlay
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            if (_ball.transform.position.y >= _computerPost)
-            {
-                playerScore++;
-                _ball.Reset();
-            }
-            else if (_ball.transform.position.y <= _playerPost)
-            {
-                computerScore++;
-                _ball.Reset();
-            }
-        }
+        //// For MainMenu - AutoPlay
+        //if (SceneManager.GetActiveScene().buildIndex == 0)
+        //{
+        //    if (_ball.transform.position.y >= _player2Post)
+        //    {
+        //        _ball.Reset();
+        //    }
+        //    else if (_ball.transform.position.y <= _playerPost)
+        //    {
+        //        _ball.Reset();
+        //    }
+        //}
 
         // For Offline Modes
         if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
@@ -99,49 +117,49 @@ public class GameManager : MonoBehaviour
             fpsText.text = "FPS: " + _fpsCounter.FramesPerSec.ToString();
 
             // Check goal
-            if (_ball.transform.position.y >= _computerPost)
+            if (_ball.transform.position.y >= _player2Post)
             {
-                playerScore++;
+                player1Score++;
                 _ball.Reset();
             }
             else if (_ball.transform.position.y <= _playerPost)
             {
-                computerScore++;
+                player2Score++;
                 _ball.Reset();
             }
 
             // Update Score Texts
-            playerScoreText.text = playerScore.ToString();
-            computerScoreText.text = computerScore.ToString();
+            playerScoreText.text = player1Score.ToString();
+            player2ScoreText.text = player2Score.ToString();
 
             if (SceneManager.GetActiveScene().buildIndex == 1)
             {
                 // check score
-                if (playerScore == scoreToWin)
+                if (player1Score == scoreToWin)
                 {
                     _ball.gameObject.SetActive(false);
                     _scoreResultText.text = "You Won!";
-                    _resultPanel.SetActive(true);
+                    //_resultPanel.SetActive(true);
 
                 }
-                else if (computerScore == scoreToWin)
+                else if (player2Score == scoreToWin)
                 {
                     _ball.gameObject.SetActive(false);
                     _scoreResultText.text = "You Lose!";
-                    _resultPanel.SetActive(true);
+                    //_resultPanel.SetActive(true);
                 }
             }
 
             if (SceneManager.GetActiveScene().buildIndex == 2)
             {
-                if (playerScore == scoreToWin)
+                if (player1Score == scoreToWin)
                 {
                     _ball.gameObject.SetActive(false);
                     _scoreResultText.text = "Player 1 Won!";
                     _resultPanel.SetActive(true);
 
                 }
-                else if (computerScore == scoreToWin)
+                else if (player2Score == scoreToWin)
                 {
                     _ball.gameObject.SetActive(false);
                     _scoreResultText.text = "Player 2 Won!";
@@ -169,28 +187,15 @@ public class GameManager : MonoBehaviour
          * ScreenCapture.CaptureScreenshot(GetAndroidExternalStoragePath() + "/" + Application.productName + "-" + DateTime.Now.ToString("yy'-'MM'-'dd'-'hh'-'mm'-'ss"));
          * ScreenCapture.CaptureScreenshot(Application.persistentDataPath + Application.productName + "-" + DateTime.Now.ToString("yy'-'MM'-'dd'-'hh'-'mm'-'ss"));
          * ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + Application.productName + "-" + DateTime.Now.ToString("yy'-'MM'-'dd'-'hh'-'mm'-'ss"));
-         */
+        */
 
-        NativeGallery.SaveImageToGallery(ScreenCapture.CaptureScreenshotAsTexture(), Application.productName, DateTime.Now.ToString("yy'-'MM'-'dd'-'hh'-'mm'-'ss"));
+        Texture2D image = ScreenCapture.CaptureScreenshotAsTexture();
+        NativeGallery.SaveImageToGallery(image, Application.productName, DateTime.Now.ToString("yy'-'MM'-'dd'-'hh'-'mm'-'ss"));
+
     }
-
-    /*
- 
-    private string GetAndroidExternalStoragePath()
-    {
-        if (Application.platform != RuntimePlatform.Android)
-            return Application.persistentDataPath;
-
-        var jc = new AndroidJavaClass("android.os.Environment");
-        var path = jc.CallStatic<AndroidJavaObject>("getExternalStoragePublicDirectory", jc.GetStatic<string>("DIRECTORY_DCIM")).Call<string>("getAbsolutePath");
-        return path;
-    }
-
-    */
 
     public void QuitGame()
     {
-        Debug.Log("Bye!");
         Application.Quit();
     }
 }

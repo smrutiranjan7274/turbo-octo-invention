@@ -16,9 +16,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private TextMeshProUGUI pingInfo;
 
+    private string _region = " ";
+
     private void Awake()
     {
         gameInfo.text = Application.productName + " version: " + Application.version + " | " + Application.platform;
+        
     }
 
     void Start()
@@ -30,45 +33,27 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.NickName = prefix + Random.Range(0, 9999);
+        
+
     }
 
     private void FixedUpdate()
     {
-        pingInfo.text = PhotonNetwork.GetPing() + "ms | " + PhotonNetwork.CloudRegion;
+        string ping = PhotonNetwork.GetPing() + "ms";
+        pingInfo.text = ping + " | " + _region;
     }
 
 
     public override void OnConnectedToMaster()
     {
-        if(!PhotonNetwork.InLobby)
+        if (!PhotonNetwork.InLobby)
+        {
             PhotonNetwork.JoinLobby();
+            _region = PhotonNetwork.CloudRegion;
+            _region = _region.Substring(0, 2);
+        }
+            
     }
-
-    /*
-
-   public override void OnJoinedLobby()
-   {
-       PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, TypedLobby.Default);
-   }
-
-   public override void OnJoinedRoom()
-   {
-       CreatePlayer();
-   }
-
-
-   private void CreatePlayer()
-   {
-       if (PhotonNetwork.IsMasterClient)
-       {
-           PhotonNetwork.Instantiate("Player", new Vector2(0, -4f), Quaternion.identity);
-       }
-       else
-       {
-           PhotonNetwork.Instantiate("Player", new Vector2(0, 4.0f), Quaternion.identity);
-       }
-   }
-    */
 
 
     public void LeaveLobby()
